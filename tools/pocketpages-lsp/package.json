@@ -5,8 +5,8 @@
   "description": "PocketPages language server for Neovim.",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server.js --stdio",
-    "smoke-test": "node ./scripts/smoke-test.js"
+    "start": "node ./run-server.js --stdio",
+    "smoke-test": "node ./run-smoke-test.js"
   },
   "dependencies": {
     "typescript": "^5.8.2",

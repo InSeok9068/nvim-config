@@ -1,11 +1,3 @@
-vim.filetype.add({
-  extension = {
-    ejs = "ejs",
-  },
-})
-
-vim.treesitter.language.register("embedded_template", "ejs")
-
 return {
   {
     "nvim-treesitter/nvim-treesitter",

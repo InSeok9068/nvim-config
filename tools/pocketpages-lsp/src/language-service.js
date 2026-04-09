@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 const ts = require("typescript");
 const { buildTemplateVirtualText, extractTemplateCodeBlocks, getTemplateCodeBlockAtOffset } = require("./ejs-template");
@@ -19,7 +20,10 @@ const {
 } = require("./custom-context");
 const { collectParamsFlowDiagnostics } = require("./flow-analysis");
 
-const CACHE_ROOT = path.resolve(__dirname, "..", ".cache");
+const DEFAULT_CACHE_ROOT = process.platform === "win32"
+  ? path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local"), "nvim-data", "pocketpages-lsp")
+  : path.join(process.env.XDG_CACHE_HOME || path.join(os.homedir(), ".cache"), "nvim", "pocketpages-lsp");
+const CACHE_ROOT = path.resolve(process.env.NVIM_POCKETPAGES_CACHE_DIR || DEFAULT_CACHE_ROOT);
 const COMPILER_OPTIONS = {
   allowJs: true,
   checkJs: false,

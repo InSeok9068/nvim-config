@@ -73,11 +73,71 @@ function M.config_root_dir(bufnr, on_dir)
 end
 
 function M.server_script()
-  return vim.fn.stdpath("config") .. "/tools/pocketpages-lsp/server.js"
+  return vim.fn.stdpath("config") .. "/tools/pocketpages-lsp/run-server.js"
+end
+
+function M.tools_dir()
+  return vim.fn.stdpath("config") .. "/tools/pocketpages-lsp"
+end
+
+function M.data_dir()
+  return vim.fn.stdpath("data") .. "/pocketpages-lsp"
+end
+
+function M.cache_dir()
+  return vim.fn.stdpath("cache") .. "/pocketpages-lsp"
+end
+
+function M.node_modules_dir()
+  return M.data_dir() .. "/node_modules"
+end
+
+function M.package_json()
+  return M.tools_dir() .. "/package.json"
+end
+
+function M.package_lock_json()
+  return M.tools_dir() .. "/package-lock.json"
+end
+
+local function copy_if_changed(source, destination)
+  local source_lines = vim.fn.readfile(source, "b")
+  if vim.v.shell_error ~= 0 then
+    return false
+  end
+
+  local destination_lines = vim.fn.filereadable(destination) == 1 and vim.fn.readfile(destination, "b") or nil
+  if destination_lines and vim.deep_equal(source_lines, destination_lines) then
+    return true
+  end
+
+  vim.fn.mkdir(vim.fs.dirname(destination), "p")
+  vim.fn.writefile(source_lines, destination, "b")
+  return true
+end
+
+function M.sync_runtime_manifest()
+  if vim.fn.filereadable(M.package_json()) ~= 1 then
+    return false
+  end
+
+  local package_ok = copy_if_changed(M.package_json(), M.data_dir() .. "/package.json")
+  local lock_ok = true
+  if vim.fn.filereadable(M.package_lock_json()) == 1 then
+    lock_ok = copy_if_changed(M.package_lock_json(), M.data_dir() .. "/package-lock.json")
+  end
+
+  return package_ok and lock_ok
 end
 
 function M.is_available()
-  return vim.fn.executable("node") == 1 and vim.uv.fs_stat(M.server_script()) ~= nil
+  if vim.fn.executable("node") ~= 1 or vim.uv.fs_stat(M.server_script()) == nil then
+    return false
+  end
+
+  M.sync_runtime_manifest()
+
+  return vim.uv.fs_stat(M.node_modules_dir()) ~= nil
 end
 
 function M.client_config(fname)

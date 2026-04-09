@@ -1,12 +1,15 @@
-require("config.dadbod_sqlite").setup()
-
 local sql_ft = { "sql", "mysql", "plsql" }
 
--- Use dadbod completion with blink.cmp and disable Neovim's default SQL maps,
--- which bind <Left>/<Right> to sqlcomplete functions and conflict here.
-vim.g.omni_sql_no_default_maps = 1
-
 return {
+  {
+    "tpope/vim-dadbod",
+    optional = true,
+    init = function()
+      -- Disable Neovim's default SQL maps early so they don't clash with dadbod completion.
+      vim.g.omni_sql_no_default_maps = 1
+      require("config.dadbod_sqlite").setup()
+    end,
+  },
   {
     "kristijanhusak/vim-dadbod-completion",
     ft = sql_ft,
