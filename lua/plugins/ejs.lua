@@ -1,15 +1,14 @@
+vim.filetype.add({
+  extension = {
+    ejs = "ejs",
+  },
+})
+
+vim.treesitter.language.register("embedded_template", "ejs")
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    init = function()
-      vim.filetype.add({
-        extension = {
-          ejs = "ejs",
-        },
-      })
-
-      vim.treesitter.language.register("embedded_template", "ejs")
-    end,
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
 
