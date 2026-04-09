@@ -1,0 +1,250 @@
+{
+  "version": 1.1,
+  "globalAttributes": [
+    {
+      "name": "hx-get",
+      "description": "Issue a GET request to the given URL and swap the response into the current page."
+    },
+    {
+      "name": "hx-post",
+      "description": "Issue a POST request to the given URL and swap the response into the current page."
+    },
+    {
+      "name": "hx-put",
+      "description": "Issue a PUT request to the given URL and swap the response into the current page."
+    },
+    {
+      "name": "hx-patch",
+      "description": "Issue a PATCH request to the given URL and swap the response into the current page."
+    },
+    {
+      "name": "hx-delete",
+      "description": "Issue a DELETE request to the given URL and swap the response into the current page."
+    },
+    {
+      "name": "hx-target",
+      "description": "Select the element that will receive the swapped response."
+    },
+    {
+      "name": "hx-swap",
+      "description": "Control how the response HTML is swapped into the target.",
+      "valueSet": "htmx-swap"
+    },
+    {
+      "name": "hx-trigger",
+      "description": "Define which event or condition triggers the HTMX request."
+    },
+    {
+      "name": "hx-include",
+      "description": "Include additional element values in the request payload."
+    },
+    {
+      "name": "hx-vals",
+      "description": "Add extra values to the request payload."
+    },
+    {
+      "name": "hx-headers",
+      "description": "Add request headers to the HTMX request."
+    },
+    {
+      "name": "hx-boost",
+      "description": "Upgrade anchors and forms to use HTMX AJAX requests.",
+      "valueSet": "boolean"
+    },
+    {
+      "name": "hx-push-url",
+      "description": "Push the fetched URL into browser history.",
+      "valueSet": "boolean"
+    },
+    {
+      "name": "hx-select",
+      "description": "Select a subset of the response before swapping it into the target."
+    },
+    {
+      "name": "hx-select-oob",
+      "description": "Swap matching response fragments out of band."
+    },
+    {
+      "name": "hx-swap-oob",
+      "description": "Swap an element from the response out of band."
+    },
+    {
+      "name": "hx-confirm",
+      "description": "Show a confirmation dialog before issuing the request."
+    },
+    {
+      "name": "hx-disabled-elt",
+      "description": "Disable matched elements while the request is in flight."
+    },
+    {
+      "name": "hx-indicator",
+      "description": "Toggle a loading indicator while the request is in flight."
+    },
+    {
+      "name": "hx-params",
+      "description": "Filter which parameters are submitted with the request."
+    },
+    {
+      "name": "hx-preserve",
+      "description": "Preserve an element across swaps.",
+      "valueSet": "boolean"
+    },
+    {
+      "name": "hx-replace-url",
+      "description": "Replace the current history entry with the fetched URL.",
+      "valueSet": "boolean"
+    },
+    {
+      "name": "hx-request",
+      "description": "Configure request options such as timeout and credentials."
+    },
+    {
+      "name": "hx-sync",
+      "description": "Synchronize multiple elements making HTMX requests."
+    },
+    {
+      "name": "hx-history",
+      "description": "Control whether the current page is stored in HTMX history."
+    },
+    {
+      "name": "hx-history-elt",
+      "description": "Mark the element whose state should be saved for history restoration."
+    },
+    {
+      "name": "hx-on",
+      "description": "Inline event listener syntax for HTMX lifecycle or DOM events."
+    },
+    {
+      "name": "hx-ext",
+      "description": "Enable one or more HTMX extensions for the element subtree."
+    },
+    {
+      "name": "x-data",
+      "description": "Define an Alpine.js component state object for the element."
+    },
+    {
+      "name": "x-init",
+      "description": "Run an expression when the Alpine.js component initializes."
+    },
+    {
+      "name": "x-show",
+      "description": "Toggle element visibility based on an Alpine.js expression."
+    },
+    {
+      "name": "x-bind",
+      "description": "Bind one or more attributes to Alpine.js expressions."
+    },
+    {
+      "name": "x-on",
+      "description": "Listen for DOM events and run an Alpine.js expression."
+    },
+    {
+      "name": "x-text",
+      "description": "Set the element text content from an Alpine.js expression."
+    },
+    {
+      "name": "x-html",
+      "description": "Set the element HTML content from an Alpine.js expression."
+    },
+    {
+      "name": "x-model",
+      "description": "Create two-way binding between form controls and Alpine.js state."
+    },
+    {
+      "name": "x-modelable",
+      "description": "Expose internal Alpine.js state for parent x-model bindings."
+    },
+    {
+      "name": "x-for",
+      "description": "Repeat a template for each item in a collection."
+    },
+    {
+      "name": "x-if",
+      "description": "Conditionally render a template fragment."
+    },
+    {
+      "name": "x-ref",
+      "description": "Register a reference name that can be accessed from Alpine.js."
+    },
+    {
+      "name": "x-cloak",
+      "description": "Hide an element until Alpine.js finishes initializing."
+    },
+    {
+      "name": "x-ignore",
+      "description": "Tell Alpine.js to skip DOM initialization for the element subtree."
+    },
+    {
+      "name": "x-effect",
+      "description": "Run a reactive side effect whenever referenced state changes."
+    },
+    {
+      "name": "x-id",
+      "description": "Generate stable unique IDs for use inside a component."
+    },
+    {
+      "name": "x-teleport",
+      "description": "Render a template into another part of the DOM."
+    },
+    {
+      "name": "x-transition",
+      "description": "Apply Alpine.js transition classes when visibility changes."
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "boolean",
+      "values": [
+        {
+          "name": "true",
+          "description": "Enable the behavior."
+        },
+        {
+          "name": "false",
+          "description": "Disable the behavior."
+        }
+      ]
+    },
+    {
+      "name": "htmx-swap",
+      "values": [
+        {
+          "name": "innerHTML",
+          "description": "Replace the target element inner HTML."
+        },
+        {
+          "name": "outerHTML",
+          "description": "Replace the entire target element."
+        },
+        {
+          "name": "textContent",
+          "description": "Replace the target text content without parsing HTML."
+        },
+        {
+          "name": "beforebegin",
+          "description": "Insert the response before the target element."
+        },
+        {
+          "name": "afterbegin",
+          "description": "Insert the response before the first child."
+        },
+        {
+          "name": "beforeend",
+          "description": "Insert the response after the last child."
+        },
+        {
+          "name": "afterend",
+          "description": "Insert the response after the target element."
+        },
+        {
+          "name": "delete",
+          "description": "Delete the target element regardless of the response."
+        },
+        {
+          "name": "none",
+          "description": "Do not insert response content into the target."
+        }
+      ]
+    }
+  ]
+}
