@@ -8,6 +8,7 @@ const {
   CompletionItemKind,
   DiagnosticSeverity,
   InlayHintKind,
+  PositionEncodingKind,
   LSPErrorCodes,
   MarkupKind,
   Position,
@@ -127,6 +128,27 @@ function isAnalyzablePocketPagesFilePath(filePath) {
 
 function toRange(document, start, end) {
   return Range.create(document.positionAt(start), document.positionAt(end));
+}
+
+function getDocumentLines(document) {
+  return document.getText().split(/\r?\n/);
+}
+
+function toSafeDocumentPosition(document, offset, lines) {
+  if (!Number.isFinite(offset)) {
+    return null;
+  }
+
+  const textLength = document.getText().length;
+  const safeOffset = Math.max(0, Math.min(Math.trunc(offset), textLength));
+  const position = document.positionAt(safeOffset);
+  const lineText = (lines || getDocumentLines(document))[position.line];
+
+  if (typeof lineText !== "string") {
+    return null;
+  }
+
+  return Position.create(position.line, Math.min(position.character, lineText.length));
 }
 
 function toDefinitionLocation(target) {
@@ -397,6 +419,7 @@ function buildSemanticTokenData(document) {
 }
 
 connection.onInitialize(() => ({
+  positionEncoding: PositionEncodingKind.UTF16,
   capabilities: {
     textDocumentSync: TextDocumentSyncKind.Incremental,
     completionProvider: {
@@ -798,16 +821,25 @@ connection.languages.inlayHint.on(
       return null;
     }
 
+    const lines = getDocumentLines(document);
+
     return service.getInlayHintEntries(filePath, document.getText(), {
       start: document.offsetAt(params.range.start),
       end: document.offsetAt(params.range.end),
-    }).map((entry) => ({
-      position: document.positionAt(entry.position),
-      label: entry.label,
-      kind: entry.kind === "parameter" ? InlayHintKind.Parameter : InlayHintKind.Type,
-      paddingLeft: true,
-      tooltip: entry.tooltip,
-    }));
+    }).flatMap((entry) => {
+      const position = toSafeDocumentPosition(document, entry.position, lines);
+      if (!position) {
+        return [];
+      }
+
+      return [{
+        position,
+        label: entry.label,
+        kind: entry.kind === "parameter" ? InlayHintKind.Parameter : InlayHintKind.Type,
+        paddingLeft: true,
+        tooltip: entry.tooltip,
+      }];
+    });
   }, null)
 );
 

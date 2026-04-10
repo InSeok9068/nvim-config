@@ -51,6 +51,28 @@ function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function assertValidPositions(text, positions, label) {
+  const lines = String(text || "").split(/\r?\n/);
+
+  for (const position of positions || []) {
+    assert(position && Number.isInteger(position.line) && position.line >= 0, `${label}: expected non-negative line`);
+    assert(
+      position.line < lines.length,
+      `${label}: line ${position.line} is outside the document (${lines.length} lines)`
+    );
+
+    const lineText = lines[position.line] || "";
+    assert(
+      Number.isInteger(position.character) && position.character >= 0,
+      `${label}: expected non-negative character`
+    );
+    assert(
+      position.character <= lineText.length,
+      `${label}: character ${position.character} exceeds line length ${lineText.length} on line ${position.line}`
+    );
+  }
+}
+
 function createFixtureApp() {
   const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "pocketpages-lsp-fixture-"));
   const appRoot = path.join(fixtureRoot, "apps", "fixture-app");
@@ -461,6 +483,11 @@ async function run() {
       },
     });
     assert(Array.isArray(inlayHints) && inlayHints.length > 0, "expected inlay hints");
+    assertValidPositions(
+      fixture.indexText,
+      inlayHints.map((entry) => entry.position),
+      "inlay hints"
+    );
 
     const semanticTokens = await client.request("textDocument/semanticTokens/full", {
       textDocument: { uri: URI.file(fixture.indexFilePath).toString() },
