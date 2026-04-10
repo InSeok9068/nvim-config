@@ -266,6 +266,12 @@ function M.setup()
       end
     end,
   })
+
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) then
+      M.refresh(buf)
+    end
+  end
 end
 
 M.get_boundary_line_numbers = get_boundary_line_numbers

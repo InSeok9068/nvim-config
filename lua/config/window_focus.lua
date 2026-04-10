@@ -269,6 +269,8 @@ function M.setup()
       M.refresh()
     end,
   })
+
+  M.refresh()
 end
 
 return M

@@ -128,6 +128,8 @@ function M.setup()
       end
     end,
   })
+
+  M.refresh_all()
 end
 
 return M

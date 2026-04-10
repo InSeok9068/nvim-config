@@ -1,6 +1,9 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    init = function()
+      vim.treesitter.language.register("embedded_template", "ejs")
+    end,
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
 
