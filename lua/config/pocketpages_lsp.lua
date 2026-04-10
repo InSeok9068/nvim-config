@@ -101,12 +101,19 @@ function M.package_lock_json()
 end
 
 local function copy_if_changed(source, destination)
-  local source_lines = vim.fn.readfile(source, "b")
-  if vim.v.shell_error ~= 0 then
+  local ok, source_lines = pcall(vim.fn.readfile, source, "b")
+  if not ok or type(source_lines) ~= "table" then
     return false
   end
 
-  local destination_lines = vim.fn.filereadable(destination) == 1 and vim.fn.readfile(destination, "b") or nil
+  local destination_lines = nil
+  if vim.fn.filereadable(destination) == 1 then
+    local destination_ok, lines = pcall(vim.fn.readfile, destination, "b")
+    if destination_ok and type(lines) == "table" then
+      destination_lines = lines
+    end
+  end
+
   if destination_lines and vim.deep_equal(source_lines, destination_lines) then
     return true
   end

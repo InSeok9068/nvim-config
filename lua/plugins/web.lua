@@ -15,8 +15,8 @@ local function read_custom_data(_, path)
     file = vim.uri_to_fname(file)
   end
 
-  local lines = vim.fn.readfile(file)
-  if vim.v.shell_error ~= 0 then
+  local ok, lines = pcall(vim.fn.readfile, file)
+  if not ok or type(lines) ~= "table" then
     return ""
   end
 
