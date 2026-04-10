@@ -52,7 +52,7 @@ return {
           window = {
             layout = "vertical",
             position = "right",
-            width = 0.42,
+            width = 0.3,
           },
         },
       },
