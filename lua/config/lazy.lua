@@ -51,5 +51,3 @@ require("lazy").setup({
     },
   },
 })
-
-require("config.local_features").setup()
