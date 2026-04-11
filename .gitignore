@@ -6,5 +6,3 @@ debug
 foo.*
 *.log
 data
-tools/pocketpages-lsp/.cache/
-tools/pocketpages-lsp/node_modules/
